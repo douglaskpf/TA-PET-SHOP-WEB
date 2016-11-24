@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="formEdicao">
+        <h:panelGroup rendered="#{controleServico.editando}">
+            <div class="ui-fluid">
+                <p:messages/>
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-13"
+                             layout="grid" styleClass="ui-panelgrid-blank">
+                    <f:facet name="header">
+                        <p:outputLabel value="Edição de Servicos"/>
+                    </f:facet>     
+                    <p:outputLabel for="txtNome" value="Nome"/>
+                    <p:inputText id="txtNome" value="#{controleServico.objeto.nome}"
+                                 size="30" maxlength="30"
+                                 placeholder="Obrigatório"/>  
+
+
+                    <p:outputLabel for="txtDescricao" value="Descrição"/>
+                    <p:inputText id="txtDescricao" value="#{controleServico.objeto.descricao}"
+                                 size="30" maxlength="30"
+                                 placeholder="Obrigatório"/>   
+
+                    <p:outputLabel value="Preço" for="txtPreco"/>
+                    <p:inputText id="txtPreco"
+                                 value="#{controleServico.objeto.preco}"
+                                 size="12" maxlength="12"
+                                 placeholder="Obrigatório"/>
+
+                    <p:outputLabel for="txtData" value="Data"/>
+                    <p:calendar id="txtData" 
+                                value="#{controleServico.objeto.data}"
+                                pattern="dd/MM/yyyy" mask="true"                              
+                                navigator="true" >
+                        <f:converter converterId="converterCalendar"/>
+                    </p:calendar>
+
+
+                    <p:commandButton value="Salvar" icon="ui-icon-disk"
+                                     actionListener="#{controleServico.salvar()}"
+                                     update="formEdicao :formListagem"/> 
+
+                    <h:panelGroup id="painelFuncionario">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-13"
+                                 layout="grid" styleClass="ui-panelgrid-blank"
+                                 rendered="#{controleServico.editandoFuncionario}">
+                        <f:facet name="header">
+                            <p:outputLabel value="Edição de Funcionário"/>
+                        </f:facet> 
+                        <p:outputLabel for="txtIDFuncionario" value="ID"/>
+                        <p:inputText id="txtIDFuncionario" value="#{controleServico.funcionario.id}"
+                                     size="5" maxlength="5"/>                          
+                        <p:outputLabel for="cbxPessoa" value="Pessoa"/>
+                        <p:selectOneMenu id="cbxPessoa" value="#{controleSErvico.funcionario.pessoa}">
+                            <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                            <f:selectItems value="#{controleServico.daoPessoa.listaTodos}"
+                                           var="u"
+                                           itemLabel="#{u.nome}"/>
+                            <f:converter converterId="converterPessoa"/>
+                        </p:selectOneMenu>  
+                        
+                        <p:commandButton value="Salvar funcionário" icon="ui-icon-disk"
+                                         actionListener="#{controleServico.salvarFuncionario()}"
+                                         update="@form"
+                                         id="btnSalvarPessoa"/>                         
+                    </p:panelGrid>                
+                </h:panelGroup>
+                
+                               
+            </div>
+            
+            <h:panelGroup id="listagemColaborador">
+                <h:panelGroup rendered="#{!controleProjeto.editandoColaborador}">
+                    <p:commandButton value="Novo colaborador" icon="ui-icon-plus"
+                                     actionListener="#{controleProjeto.novoColaborador()}"
+                                     update="listagemColaborador painelColaborador"
+                                     id="btnNovoColaborador"/>                    
+                    <p:dataTable value="#{controleProjeto.objeto.colaboradores}"
+                                 var="col" reflow="true"  rowIndexVar="idx">
+                        <f:facet name="header">
+                            <p:outputLabel value="Colaboradores"/>
+                        </f:facet>
+                        <p:column headerText="Colaborador">
+                            <p:outputLabel value="#{col.usuario.nome}"/>
+                        </p:column>
+                        <p:column headerText="Carga Horária">
+                            <p:outputLabel value="#{col.cargaHoraria}"/>
+                        </p:column>  
+                        <p:column headerText="Gestor">
+                            <p:outputLabel value="#{col.gestor ? 'Sim' : 'Não'}"/>
+                        </p:column>                          
+                        <p:column headerText="Ações">
+                            <div align="center">                                
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 actionListener="#{controleProjeto.alterarColaborador(idx)}"
+                                                 process="@this"
+                                                 update="@form"/>                                
+                                <p:commandButton icon="ui-icon-trash"
+                                                 actionListener="#{controleProjeto.excluirColaborador(idx)}"
+                                                 process="@this" update="@form"/>
+                            </div>
+                        </p:column>                     
+                    </p:dataTable>
+                </h:panelGroup> 
+            </h:panelGroup>
+        </h:panelGroup>
+    </h:form>
+</html>
+

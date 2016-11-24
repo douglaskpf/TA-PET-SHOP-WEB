@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="formEdicao">
+        <h:panelGroup rendered="#{controlePessoa.editando}">
+            <div class="ui-fluid">
+                <p:messages/>
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-13"
+                             layout="grid" styleClass="ui-panelgrid-blank">
+                    <f:facet name="header">
+                        <p:outputLabel value="Edição de Pessoas"/>
+                    </f:facet>     
+                    <p:outputLabel for="txtID" value="ID"/>
+                    <p:inputText id="txtID" value="#{controlePessoa.objeto.id}"
+                                 size="5" maxlength="5"/>    
+
+                    <p:outputLabel for="txtNome" value="Nome"/>
+                    <p:inputText id="txtNome" value="#{controlePessoa.objeto.nome}"
+                                 size="50" maxlength="50"
+                                 placeholder="Obrigatório"/>  
+
+                    <p:outputLabel for="txtRG" value="RG" />
+                    <p:inputMask id="txtRG" value="#{controlePessoa.objeto.rg}" size="10"
+                                 mask="9999999999" placeholder="Obrigatório"/> 
+
+
+                    <p:outputLabel for="txtCPF" value="CPF"/>
+                    <p:inputMask id="txtCPF"  value="#{controlePessoa.objeto.cpf}" size="14"
+                                 mask="999.999.999-99" placeholder="Obrigatório"/> 
+
+                    <p:outputLabel for="txtEmail" value="Email"/>
+                    <p:inputTextarea id="txtEmail" value="#{controlePessoa.objeto.email}"                                 
+                                     placeholder="Obrigatório"/>     
+
+                    <p:outputLabel for="txtEndereco" value="Endereco"/>
+                    <p:inputTextarea id="txtEndereco" value="#{controlePessoa.objeto.endereco}"                                 
+                                     placeholder="Obrigatório"/>     
+                    
+                        
+
+                    <p:commandButton value="Salvar" icon="ui-icon-disk"
+                                     actionListener="#{controlePessoa.salvar()}"
+                                     update="formEdicao :formListagem"/> 
+                </p:panelGrid>
+
+                <h:panelGroup id="painelTelefone">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-13"
+                                 layout="grid" styleClass="ui-panelgrid-blank"
+                                 rendered="#{controlePessoa.editandoTelefone}">
+                        <f:facet name="header">
+                            <p:outputLabel value="Edição de telefones"/>
+                        </f:facet> 
+
+                        <p:outputLabel for="txtIDTelefone" value="ID"/>
+                        <p:inputText id="txtIDTelefone" value="#{controlePessoa.telefone.id}"
+                                     size="5" maxlength="5"/>    
+
+
+                        <p:outputLabel for= "txtNumero" value="Numero"/>
+                        <p:inputNumber id="txtNumero" value="#{controlePessoa.telefone.numero}"
+                                       size="16" maxlength="16"/>
+
+
+                        <p:outputLabel for= "txtDescricao" value="Descricao"/>
+                        <p:inputText id="txtDescricao" value="#{controlePessoa.telefone.descricao}"
+                                     size="16" maxlength="16"/>                   
+
+
+                        <p:commandButton value="Salvar telefone" icon="ui-icon-disk"
+                                         actionListener="#{controlePessoa.salvarTelefone()}"
+                                         update="@form"
+                                         id="btnSalvarTelefone"/>                         
+                    </p:panelGrid>                
+                </h:panelGroup>
+                
+                
+                <h:panelGroup id="painelDesejo">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-13"
+                                 layout="grid" styleClass="ui-panelgrid-blank"
+                                 rendered="#{controlePessoa.editandoDesejo}">
+                        <f:facet name="header">
+                            <p:outputLabel value="Edição de desejo do cliente"/>
+                        </f:facet> 
+                        <p:outputLabel for="cbxDesejo" value="Desejo"/>
+                        <p:selectOneMenu id="cbxDesejo" value="#{controlePessoa.desejo}">
+                            <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                            <f:selectItems value="#{controlePessoa.daoDesejo.listaTodos}"
+                                           var="d"
+                                           itemLabel="#{d.nome}"/>
+                            <f:converter converterId="converterDesejo"/>
+                        </p:selectOneMenu>  
+                        <p:outputLabel value=""/>
+                        <p:commandButton value="Salvar Desejo" icon="ui-icon-disk"
+                                         actionListener="#{controlePessoa.salvarDesejo()}"
+                                         update="listagemDesejos painelDesejo"
+                                         id="btnSalvarDesejo"/>                         
+                    </p:panelGrid>                
+                </h:panelGroup>
+
+
+            </div>
+
+
+            <h:panelGroup id="listagemTelefone">
+                <h:panelGroup rendered="#{!controlePessoa.editandoTelefone}">
+                    <p:commandButton value="Novo telefone" icon="ui-icon-plus"
+                                     actionListener="#{controlePessoa.novoTelefone()}"
+                                     update="listagemTelefone painelTelefone"
+                                     id="btnNovoTelefone"/>                    
+                    <p:dataTable value="#{controlePessoa.objeto.telefones}"
+                                 var="col" reflow="true"  rowIndexVar="idx">
+                        <f:facet name="header">
+                            <p:outputLabel value="Telefones"/>
+                        </f:facet>
+                        <p:column headerText="Telefone">
+                            <p:outputLabel value="#{col.numero}"/>
+                        </p:column>
+                        <p:column headerText="Carga Horária">
+                            <p:outputLabel value="#{col.descricao}"/>
+                        </p:column>  
+
+                        <p:column headerText="Ações">
+                            <div align="center">                                
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 actionListener="#{controlePessoa.alterarTelefone(idx)}"
+                                                 process="@this"
+                                                 update="@form"/>                                
+                                <p:commandButton icon="ui-icon-trash"
+                                                 actionListener="#{controlePessoa.excluirTelefone(idx)}"
+                                                 process="@this" update="@form"/>
+                            </div>
+                        </p:column>                     
+                    </p:dataTable>
+                </h:panelGroup> 
+            </h:panelGroup>
+            
+             <h:panelGroup id="listagemDesejos">
+                <h:panelGroup rendered="#{!controlePessoa.editandoDesejo}">
+                    <p:commandButton value="Nova Desejo" icon="ui-icon-plus"
+                                     actionListener="#{controlePessoa.novoDesejo()}"
+                                     update="listagemDesejos painelDesejo"
+                                     id="btnNovoDesejo"/>                    
+                    <p:dataTable value="#{controlePessoa.objeto.desejos}"
+                                 var="des" reflow="true" >
+                        <f:facet name="header">
+                            <p:outputLabel value="Desejos do cliente"/>
+
+                        </f:facet>
+                        <p:column headerText="Desejo">
+                            <p:outputLabel value="#{des.nome}"/>
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <p:outputLabel value="#{des.descricao}"/>
+                        </p:column>    
+                        <p:column headerText="Ações">
+                            <div align="center">
+                                <p:commandButton icon="ui-icon-trash"
+                                                 actionListener="#{controlePessoa.excluirDesejo(des)}"
+                                                 process="@this" update="@form"/>
+                            </div>
+                        </p:column>                     
+                    </p:dataTable>
+                </h:panelGroup> 
+            </h:panelGroup>
+            
+        </h:panelGroup>
+    </h:form>
+</html>
+

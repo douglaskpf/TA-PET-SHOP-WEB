@@ -85,9 +85,9 @@
                             <p:outputLabel value="Edição de desejo do cliente"/>
                         </f:facet> 
                         <p:outputLabel for="cbxDesejo" value="Desejo"/>
-                        <p:selectOneMenu id="cbxDesejo" value="#{controlePessoa.desejo}">
+                        <p:selectOneMenu id="cbxDesejo" value="#{controlePessoa.produto}">
                             <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
-                            <f:selectItems value="#{controlePessoa.daoDesejo.listaTodos}"
+                            <f:selectItems value="#{controlePessoa.daoProduto.listaTodos}"
                                            var="d"
                                            itemLabel="#{d.nome}"/>
                             <f:converter converterId="converterDesejo"/>
@@ -143,7 +143,7 @@
                                      actionListener="#{controlePessoa.novoDesejo()}"
                                      update="listagemDesejos painelDesejo"
                                      id="btnNovoDesejo"/>                    
-                    <p:dataTable value="#{controlePessoa.objeto.desejos}"
+                    <p:dataTable value="#{controlePessoa.objeto.produtos}"
                                  var="des" reflow="true" >
                         <f:facet name="header">
                             <p:outputLabel value="Desejos do cliente"/>

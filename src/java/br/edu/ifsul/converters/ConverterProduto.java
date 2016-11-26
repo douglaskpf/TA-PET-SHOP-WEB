@@ -1,6 +1,6 @@
 package br.edu.ifsul.converters;
 
-import br.edu.ifsul.modelo.Pessoa;
+import br.edu.ifsul.modelo.Produto;
 import java.io.Serializable;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -10,10 +10,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 
-@FacesConverter(value = "converterPessoa")
-public class ConverterPessoa implements Serializable, Converter {
+@FacesConverter(value = "converterProduto")
+public class ConverterProduto implements Serializable, Converter {
 
-    @PersistenceContext(unitName="TA-PET-SHOP-WebPU")
+    @PersistenceContext(unitName = "TA-PET-SHOP-WebPU")
     private EntityManager em;
 
     // converte da tela para o objeto
@@ -22,7 +22,7 @@ public class ConverterPessoa implements Serializable, Converter {
         if (string == null || string.equals("Selecione um registro")) {
             return null;
         }
-        return em.find(Pessoa.class, Integer.parseInt(string));
+        return em.find(Produto.class, string);
     }
 
     // converte do objeto para a tela
@@ -31,8 +31,8 @@ public class ConverterPessoa implements Serializable, Converter {
         if (o == null) {
             return null;
         }
-        Pessoa obj = (Pessoa) o;
-        return obj.getId().toString();
+        Produto obj = (Produto) o;
+        return obj.getNome();
     }
 
 }

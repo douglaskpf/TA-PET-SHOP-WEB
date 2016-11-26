@@ -6,89 +6,69 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/template.xhtml">
-        <ui:define name="titulo">Manutenção de Pessoas</ui:define>
+        <ui:define name="titulo">Manutenção de Permissões</ui:define>
         <ui:define name="conteudo">
             <h:form id="formListagem">
-                <h:panelGroup rendered="#{!controlePessoa.editando}">
+                <h:panelGroup rendered="#{!controleProduto.editando}">
                     <p:messages/>
                     <p:commandButton value="Novo" icon="ui-icon-plus"
-                                     actionListener="#{controlePessoa.novo()}"
+                                     actionListener="#{controleProduto.novo()}"
                                      update=":formEdicao :formListagem"/>                    
                     
-                    <p:dataTable value="#{controlePessoa.dao.listaObjetos}" var="obj"
+
+                    <p:dataTable value="#{controleProduto.dao.listaObjetos}" var="obj"
                                  reflow="true" id="listagem" >
                         <f:facet name="header">                            
                             <div class="ui-fluid" >
                                 <p:panelGrid columns="7" styleClass="ui-panelgrid-blank" layout="grid"
                                             columnClasses="col-md-1,col-md-2,col-md-1,col-md-3,col-md-1,col-md-2,col-md-2">
                                     <p:outputLabel value="Ordem:" />
-                                    <p:selectOneMenu value="#{controlePessoa.dao.ordem}">  
-                                        <f:selectItem itemLabel="ID" itemValue="id"/>   
+                                    <p:selectOneMenu value="#{controleProduto.dao.ordem}">                                        
                                         <f:selectItem itemLabel="Nome" itemValue="nome"/>                            
                                         <p:ajax update="listagem"/>
                                     </p:selectOneMenu>
                                     <p:outputLabel value="Filtro: "/>
-                                    <p:inputText value="#{controlePessoa.dao.filtro}"/>                                                            
+                                    <p:inputText value="#{controleProduto.dao.filtro}"/>                                                            
                                     <p:commandButton value="Filtrar" update="listagem" icon="ui-icon-search"/>
                                     <p:outputLabel value="Máximo de objetos:"/>
-                                    <p:inputText value="#{controlePessoa.dao.maximoObjetos}" size="5">
+                                    <p:inputText value="#{controleProduto.dao.maximoObjetos}" size="5">
                                         <p:ajax event="keyup" update="listagem"/>
                                     </p:inputText>
                                 </p:panelGrid>
                             </div>                                            
                         </f:facet>
                         <f:facet name="footer"> 
-                            <p:outputLabel value="#{controlePessoa.dao.mensagemNavegacao} &nbsp; &nbsp;"/>
-                            <p:commandButton action="#{controlePessoa.dao.primeiro()}"
+                            <p:outputLabel value="#{controleProduto.dao.mensagemNavegacao} &nbsp; &nbsp;"/>
+                            <p:commandButton action="#{controleProduto.dao.primeiro()}"
                                              icon="ui-icon-seek-first" title="Primeiro" update="listagem"/>
-                            <p:commandButton action="#{controlePessoa.dao.anterior()}"
+                            <p:commandButton action="#{controleProduto.dao.anterior()}"
                                              icon="ui-icon-seek-prev" title="Anterior" update="listagem"/>
-                            <p:commandButton action="#{controlePessoa.dao.proximo()}"
+                            <p:commandButton action="#{controleProduto.dao.proximo()}"
                                              icon="ui-icon-seek-next" title="Próximo" update="listagem"/>
-                            <p:commandButton action="#{controlePessoa.dao.ultimo()}"
-                                             icon="ui-icon-seek-end" title="Ultimo" update="listagem"/>                                                        
+                            <p:commandButton action="#{controleProduto.dao.ultimo()}"
+                                             icon="ui-icon-seek-end" title="Ultimo" update="listagem"/>
                         </f:facet>
-                        <p:column headerText="ID">
-                            <p:outputLabel value="#{obj.id}"/>
-                        </p:column>
                         <p:column headerText="Nome">
                             <p:outputLabel value="#{obj.nome}"/>
-                        </p:column>                                                
-                        <p:column headerText="Email">
-                            <p:outputLabel value="#{obj.email}"/>
-                        </p:column>        
-                           <p:column headerText="Endereço">
-                            <p:outputLabel value="#{obj.endereco}"/>
-                        </p:column> 
-                        
-                        <p:column headerText="CPF">
-                            <p:outputLabel value="#{obj.cpf}"/>
-                        </p:column> 
-                        
-                         <p:column headerText="RG">
-                            <p:outputLabel value="#{obj.rg}"/>
-                        </p:column> 
-                        
-                        <p:column headerText="Servico">
-                            <p:outputLabel value="#{obj.servico.nome}"/>
-                        </p:column> 
-                                   
-                                              
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <p:outputLabel value="#{obj.descricao}"/>
+                        </p:column>      
                         <p:column headerText="Ações">
                             <div align="center">
                                 <p:commandButton icon="ui-icon-pencil"
-                                                 actionListener="#{controlePessoa.alterar(obj.id)}"
+                                                 actionListener="#{controleProduto.alterar(obj.nome)}"
                                                  process="@form"
                                                  update=":formEdicao formListagem"/>
                                 <p:commandButton icon="ui-icon-trash"
-                                                 actionListener="#{controlePessoa.excluir(obj.id)}"
+                                                 actionListener="#{controleProduto.excluir(obj.nome)}"
                                                  process="@form" update=":formListagem"/>
                             </div>
                         </p:column>
                     </p:dataTable>
                 </h:panelGroup>
             </h:form>
-            <ui:include src="/privado/pessoa/formulario.xhtml"/>
+            <ui:include src="/privado/produto/formulario.xhtml"/>
         </ui:define>
     </ui:composition>
 </html>

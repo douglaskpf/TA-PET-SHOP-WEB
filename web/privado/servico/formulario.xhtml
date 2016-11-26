@@ -37,6 +37,15 @@
                                 navigator="true" >
                         <f:converter converterId="converterCalendar"/>
                     </p:calendar>
+                    
+                     <p:outputLabel for="cbxPessoa" value="Pessoa"/>
+                    <p:selectOneMenu id="cbxPessoa" value="#{controleServico.objeto.pessoa}">
+                        <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                        <f:selectItems value="#{controleServico.daoPessoa.listaTodos}"
+                                       var="p"
+                                       itemLabel="#{p.nome}"/>
+                        <f:converter converterId="converterPessoa"/>
+                    </p:selectOneMenu>
 
 
                     <p:commandButton value="Salvar" icon="ui-icon-disk"
@@ -72,34 +81,34 @@
                                
             </div>
             
-            <h:panelGroup id="listagemColaborador">
-                <h:panelGroup rendered="#{!controleProjeto.editandoColaborador}">
-                    <p:commandButton value="Novo colaborador" icon="ui-icon-plus"
-                                     actionListener="#{controleProjeto.novoColaborador()}"
-                                     update="listagemColaborador painelColaborador"
-                                     id="btnNovoColaborador"/>                    
-                    <p:dataTable value="#{controleProjeto.objeto.colaboradores}"
+            <h:panelGroup id="listagemFuncionario">
+                <h:panelGroup rendered="#{!controleServico.editandoFuncionario}">
+                    <p:commandButton value="Novo funcionario" icon="ui-icon-plus"
+                                     actionListener="#{controleServico.novoFuncionario()}"
+                                     update="listagemFuncionario painelFuncionario"
+                                     id="btnNovoFuncionario"/>                    
+                    <p:dataTable value="#{controleServico.objeto.funcionarioes}"
                                  var="col" reflow="true"  rowIndexVar="idx">
                         <f:facet name="header">
-                            <p:outputLabel value="Colaboradores"/>
+                            <p:outputLabel value="Funcionarios"/>
                         </f:facet>
-                        <p:column headerText="Colaborador">
-                            <p:outputLabel value="#{col.usuario.nome}"/>
+                        <p:column headerText="Funcionario">
+                            <p:outputLabel value="#{col.pessoa.nome}"/>
                         </p:column>
-                        <p:column headerText="Carga Horária">
-                            <p:outputLabel value="#{col.cargaHoraria}"/>
+                        <p:column headerText="Matricula">
+                            <p:outputLabel value="#{col.matricula}"/>
                         </p:column>  
-                        <p:column headerText="Gestor">
-                            <p:outputLabel value="#{col.gestor ? 'Sim' : 'Não'}"/>
+                        <p:column headerText="Função">
+                            <p:outputLabel value="#{col.funcao}"/>
                         </p:column>                          
                         <p:column headerText="Ações">
                             <div align="center">                                
                                 <p:commandButton icon="ui-icon-pencil"
-                                                 actionListener="#{controleProjeto.alterarColaborador(idx)}"
+                                                 actionListener="#{controleServico.alterarFuncionario(idx)}"
                                                  process="@this"
                                                  update="@form"/>                                
                                 <p:commandButton icon="ui-icon-trash"
-                                                 actionListener="#{controleProjeto.excluirColaborador(idx)}"
+                                                 actionListener="#{controleServico.excluirFuncionario(idx)}"
                                                  process="@this" update="@form"/>
                             </div>
                         </p:column>                     

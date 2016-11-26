@@ -6,17 +6,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * @author Jorge Luis Boeira Bavaresco
- * @email jorge.bavaresco@passofundo.ifsul.edu.br
- * Instituto Federal Sul-Rio-Grandense Campus Passo Fundo
- */
+
 public class DAOGenerico<T> implements Serializable {
 
     private List<T> listaObjetos;
     private List<T> listaTodos;
-    @PersistenceContext(unitName = "TA-PET-SHOP-WebPU")
+    @PersistenceContext(unitName ="TA-PET-SHOP-WebPU")
     private EntityManager em;
     private Class classePersistente;
     private String ordem = "id";

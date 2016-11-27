@@ -13,11 +13,15 @@
                     <f:facet name="header">
                         <p:outputLabel value="Edição de Servicos"/>
                     </f:facet>     
+                    
+                     <p:outputLabel for="txtID" value="ID"/>
+                     <p:inputText id="txtID" value="#{controleServico.objeto.id}"
+                                 size="5" maxlength="5"/>    
+                    
                     <p:outputLabel for="txtNome" value="Nome"/>
                     <p:inputText id="txtNome" value="#{controleServico.objeto.nome}"
                                  size="30" maxlength="30"
                                  placeholder="Obrigatório"/>  
-
 
                     <p:outputLabel for="txtDescricao" value="Descrição"/>
                     <p:inputText id="txtDescricao" value="#{controleServico.objeto.descricao}"
@@ -47,57 +51,59 @@
                         <f:converter converterId="converterPessoa"/>
                     </p:selectOneMenu>
 
-
                     <p:commandButton value="Salvar" icon="ui-icon-disk"
                                      actionListener="#{controleServico.salvar()}"
                                      update="formEdicao :formListagem"/> 
-
+            </p:panelGrid>
                     <h:panelGroup id="painelFuncionario">
                     <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-13"
                                  layout="grid" styleClass="ui-panelgrid-blank"
                                  rendered="#{controleServico.editandoFuncionario}">
                         <f:facet name="header">
-                            <p:outputLabel value="Edição de Funcionário"/>
+                            <p:outputLabel value="Edição de Funcionários"/>
                         </f:facet> 
                         <p:outputLabel for="txtIDFuncionario" value="ID"/>
                         <p:inputText id="txtIDFuncionario" value="#{controleServico.funcionario.id}"
-                                     size="5" maxlength="5"/>                          
-                        <p:outputLabel for="cbxPessoa" value="Pessoa"/>
-                        <p:selectOneMenu id="cbxPessoa" value="#{controleSErvico.funcionario.pessoa}">
+                                     size="5" maxlength="5"/>   
+                        
+                        <p:outputLabel for="cbxPessoaFuncionario" value="Pessoa"/>
+                        <p:selectOneMenu id="cbxPessoaFuncionario" value="#{controleServico.funcionario.pessoa}">
                             <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
                             <f:selectItems value="#{controleServico.daoPessoa.listaTodos}"
-                                           var="u"
-                                           itemLabel="#{u.nome}"/>
+                                           var="p"
+                                           itemLabel="#{p.nome}"/>
                             <f:converter converterId="converterPessoa"/>
                         </p:selectOneMenu>  
+                                                                     
+                        <p:outputLabel for= "txtFuncao" value="Função"/>
+                        <p:inputText id="txtFuncao" value="#{controleServico.funcionario.funcao}" size="20"
+                                     maxlength="20"/>    
                         
-                        <p:commandButton value="Salvar funcionário" icon="ui-icon-disk"
+                        <p:commandButton value="Salvar" icon="ui-icon-disk"
                                          actionListener="#{controleServico.salvarFuncionario()}"
                                          update="@form"
-                                         id="btnSalvarPessoa"/>                         
+                                         id="btnSalvarFuncionario"/>                         
                     </p:panelGrid>                
                 </h:panelGroup>
                 
-                               
+                   
             </div>
             
             <h:panelGroup id="listagemFuncionario">
                 <h:panelGroup rendered="#{!controleServico.editandoFuncionario}">
-                    <p:commandButton value="Novo funcionario" icon="ui-icon-plus"
+                    <p:commandButton value="Novo Funcionário" icon="ui-icon-plus"
                                      actionListener="#{controleServico.novoFuncionario()}"
                                      update="listagemFuncionario painelFuncionario"
                                      id="btnNovoFuncionario"/>                    
-                    <p:dataTable value="#{controleServico.objeto.funcionarioes}"
+                    <p:dataTable value="#{controleServico.objeto.funcionarios}"
                                  var="col" reflow="true"  rowIndexVar="idx">
                         <f:facet name="header">
-                            <p:outputLabel value="Funcionarios"/>
+                            <p:outputLabel value="Funcionários"/>
                         </f:facet>
                         <p:column headerText="Funcionario">
                             <p:outputLabel value="#{col.pessoa.nome}"/>
                         </p:column>
-                        <p:column headerText="Matricula">
-                            <p:outputLabel value="#{col.matricula}"/>
-                        </p:column>  
+                    
                         <p:column headerText="Função">
                             <p:outputLabel value="#{col.funcao}"/>
                         </p:column>                          

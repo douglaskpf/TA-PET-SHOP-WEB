@@ -11,7 +11,7 @@
                 <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-13"
                              layout="grid" styleClass="ui-panelgrid-blank">
                     <f:facet name="header">
-                        <p:outputLabel value="Edição de Pessoas"/>
+                        <p:outputLabel value="Edição de Clientes"/>
                     </f:facet>     
                     <p:outputLabel for="txtID" value="ID"/>
                     <p:inputText id="txtID" value="#{controlePessoa.objeto.id}"
@@ -23,7 +23,7 @@
                                  placeholder="Obrigatório"/>  
 
                     <p:outputLabel for="txtRG" value="RG" />
-                    <p:inputMask id="txtRG" value="#{controlePessoa.objeto.rg}" size="10"
+                    <p:inputMask id="txtRG" value="#{controlePessoa.objeto.rg}" size="13"
                                  mask="9999999999" placeholder="Obrigatório"/> 
 
 
@@ -32,14 +32,12 @@
                                  mask="999.999.999-99" placeholder="Obrigatório"/> 
 
                     <p:outputLabel for="txtEmail" value="Email"/>
-                    <p:inputTextarea id="txtEmail" value="#{controlePessoa.objeto.email}"                                 
+                    <p:inputText id="txtEmail" value="#{controlePessoa.objeto.email}" size="50"                                
                                      placeholder="Obrigatório"/>     
 
                     <p:outputLabel for="txtEndereco" value="Endereco"/>
-                    <p:inputTextarea id="txtEndereco" value="#{controlePessoa.objeto.endereco}"                                 
+                    <p:inputText id="txtEndereco" value="#{controlePessoa.objeto.endereco}" size="50"                                 
                                      placeholder="Obrigatório"/>     
-                    
-                        
 
                     <p:commandButton value="Salvar" icon="ui-icon-disk"
                                      actionListener="#{controlePessoa.salvar()}"
@@ -51,58 +49,53 @@
                                  layout="grid" styleClass="ui-panelgrid-blank"
                                  rendered="#{controlePessoa.editandoTelefone}">
                         <f:facet name="header">
-                            <p:outputLabel value="Edição de telefones"/>
+                            <p:outputLabel value="Edição de Telefones"/>
                         </f:facet> 
 
                         <p:outputLabel for="txtIDTelefone" value="ID"/>
                         <p:inputText id="txtIDTelefone" value="#{controlePessoa.telefone.id}"
                                      size="5" maxlength="5"/>    
 
-
-                        <p:outputLabel for= "txtNumero" value="Numero"/>
-                        <p:inputNumber id="txtNumero" value="#{controlePessoa.telefone.numero}"
-                                       size="16" maxlength="16"/>
-
+                        <p:outputLabel for= "txtNumero" value="Número"/>
+                        <p:inputMask id="txtNumero" value="#{controlePessoa.telefone.numero}"
+                                       size="15" maxlength="15" mask="(99)99999-9999"/>
 
                         <p:outputLabel for= "txtDescricao" value="Descricao"/>
-                        <p:inputText id="txtDescricao" value="#{controlePessoa.telefone.descricao}"
-                                     size="16" maxlength="16"/>                   
+                        <p:inputText id="txtDescricao" value="#{controlePessoa.telefone.descricao}" size="20"
+                                     maxlength="20"/>                   
 
-
-                        <p:commandButton value="Salvar telefone" icon="ui-icon-disk"
+                        <p:commandButton value="Salvar" icon="ui-icon-disk"
                                          actionListener="#{controlePessoa.salvarTelefone()}"
                                          update="@form"
                                          id="btnSalvarTelefone"/>                         
                     </p:panelGrid>                
                 </h:panelGroup>
-                
-                
+
+
                 <h:panelGroup id="painelDesejo">
                     <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-13"
                                  layout="grid" styleClass="ui-panelgrid-blank"
                                  rendered="#{controlePessoa.editandoDesejo}">
                         <f:facet name="header">
-                            <p:outputLabel value="Edição de desejo do cliente"/>
+                            <p:outputLabel value="Edição de Favoritos"/>
                         </f:facet> 
-                        <p:outputLabel for="cbxDesejo" value="Desejo"/>
+                        <p:outputLabel for="cbxDesejo" value="Produto"/>
                         <p:selectOneMenu id="cbxDesejo" value="#{controlePessoa.produto}">
                             <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
                             <f:selectItems value="#{controlePessoa.daoProduto.listaTodos}"
-                                           var="d"
-                                           itemLabel="#{d.nome}"/>
-                            <f:converter converterId="converterDesejo"/>
+                                           var="p"
+                                           itemLabel="#{p.nome}"/>
+                            <f:converter converterId="converterProduto"/>
                         </p:selectOneMenu>  
                         <p:outputLabel value=""/>
-                        <p:commandButton value="Salvar Desejo" icon="ui-icon-disk"
+                        <p:commandButton value="Salvar" icon="ui-icon-disk"
                                          actionListener="#{controlePessoa.salvarDesejo()}"
                                          update="listagemDesejos painelDesejo"
                                          id="btnSalvarDesejo"/>                         
                     </p:panelGrid>                
                 </h:panelGroup>
 
-
             </div>
-
 
             <h:panelGroup id="listagemTelefone">
                 <h:panelGroup rendered="#{!controlePessoa.editandoTelefone}">
@@ -115,10 +108,10 @@
                         <f:facet name="header">
                             <p:outputLabel value="Telefones"/>
                         </f:facet>
-                        <p:column headerText="Telefone">
+                        <p:column headerText="Número">
                             <p:outputLabel value="#{col.numero}"/>
                         </p:column>
-                        <p:column headerText="Carga Horária">
+                        <p:column headerText="Descrição">
                             <p:outputLabel value="#{col.descricao}"/>
                         </p:column>  
 
@@ -136,20 +129,19 @@
                     </p:dataTable>
                 </h:panelGroup> 
             </h:panelGroup>
-            
-             <h:panelGroup id="listagemDesejos">
+
+            <h:panelGroup id="listagemDesejos">
                 <h:panelGroup rendered="#{!controlePessoa.editandoDesejo}">
-                    <p:commandButton value="Nova Desejo" icon="ui-icon-plus"
+                    <p:commandButton value="Novo Favorito" icon="ui-icon-plus"
                                      actionListener="#{controlePessoa.novoDesejo()}"
                                      update="listagemDesejos painelDesejo"
                                      id="btnNovoDesejo"/>                    
                     <p:dataTable value="#{controlePessoa.objeto.produtos}"
                                  var="des" reflow="true" >
                         <f:facet name="header">
-                            <p:outputLabel value="Desejos do cliente"/>
-
+                            <p:outputLabel value="Favoritos do Cliente"/>
                         </f:facet>
-                        <p:column headerText="Desejo">
+                        <p:column headerText="Produto">
                             <p:outputLabel value="#{des.nome}"/>
                         </p:column>
                         <p:column headerText="Descrição">
@@ -165,7 +157,7 @@
                     </p:dataTable>
                 </h:panelGroup> 
             </h:panelGroup>
-            
+
         </h:panelGroup>
     </h:form>
 </html>

@@ -45,6 +45,7 @@ public class ControlePessoa implements Serializable {
     public void novo() {
         editando = true;
         editandoTelefone = false;
+        editandoDesejo =false;
         objeto = new Pessoa();
     }
 
@@ -53,12 +54,14 @@ public class ControlePessoa implements Serializable {
             objeto = dao.getObjectById(id);
             editando = true;
             editandoTelefone = false;
+            editandoDesejo =false;
             } catch (Exception e) {
             Util.mensagemErro("Erro ao recuperar objeto: " + Util.geMensagemErro(e));
         }
 
     }
-
+    
+    
     public void excluir(Integer id) {
         try {
             objeto = dao.getObjectById(id);
@@ -79,6 +82,7 @@ public class ControlePessoa implements Serializable {
             Util.mensagemInformacao("Sucesso ao persistir objeto");
             editando = false;
             editandoTelefone = false;
+            editandoDesejo =false;
             } catch (Exception e) {
             Util.mensagemErro("Erro ao persistir: " + Util.geMensagemErro(e));
         }

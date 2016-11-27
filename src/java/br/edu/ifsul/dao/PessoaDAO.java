@@ -18,7 +18,10 @@ public class PessoaDAO<T> extends DAOGenerico<Pessoa> implements Serializable {
     public Pessoa getObjectById(Integer id) throws Exception {
         Pessoa obj = (Pessoa) super.getEm().find(super.getClassePersistente(), id);
         obj.getTelefones().size();
+        obj.getProdutos().size();
         return obj;
+                        
     }       
+       
     
 }

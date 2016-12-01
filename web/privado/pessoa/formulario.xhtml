@@ -11,7 +11,7 @@
                 <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-13"
                              layout="grid" styleClass="ui-panelgrid-blank">
                     <f:facet name="header">
-                        <p:outputLabel value="Edição de Clientes"/>
+                        <p:outputLabel value="Edição de Pessoas"/>
                     </f:facet>     
                     <p:outputLabel for="txtID" value="ID"/>
                     <p:inputText id="txtID" value="#{controlePessoa.objeto.id}"
@@ -99,7 +99,7 @@
 
             <h:panelGroup id="listagemTelefone">
                 <h:panelGroup rendered="#{!controlePessoa.editandoTelefone}">
-                    <p:commandButton value="Novo telefone" icon="ui-icon-plus"
+                    <p:commandButton value="Novo Telefone" icon="ui-icon-plus"
                                      actionListener="#{controlePessoa.novoTelefone()}"
                                      update="listagemTelefone painelTelefone"
                                      id="btnNovoTelefone"/>                    
